@@ -3,453 +3,552 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dustin Z. Lacandazo | IT Portfolio</title>
-    <!-- Modern Poppins Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Dustin Z. Lacandazo | Tech Portfolio</title>
+    <!-- Importing Tech Fonts: Space Mono for Code/Headers, Inter for readable text -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Modern, Jewel-Toned & Gold UI Setup */
+        /* Tech/Developer Color Palette */
         :root {
-            --bg-base: #0a1118; /* Deepest jewel-toned slate */
-            --bg-card: #121e26; /* Slightly lighter earthy jewel tone */
-            --accent-gold: #D4AF37; /* Warm gold accent */
-            --text-main: #f4f1ea; /* Warm earthy white */
-            --text-muted: #8a9e9b;
-            --transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            --bg-base: #070a0f;
+            --bg-card: #0d131c;
+            --accent-cyan: #00e5ff;
+            --accent-green: #00ff66;
+            --text-main: #e2e8f0;
+            --text-muted: #8b9bb4;
+            --border-color: rgba(0, 229, 255, 0.2);
+            --card-shadow: 0 0 20px rgba(0, 229, 255, 0.05);
+            --transition: all 0.3s ease;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
             scroll-behavior: smooth;
         }
 
         body {
             background-color: var(--bg-base);
+            /* Tech Grid Background Pattern */
+            background-image: 
+                linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
             color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
             overflow-x: hidden;
-            line-height: 1.7;
         }
 
-        /* Parallax Background Gradient */
-        .parallax-bg {
-            position: fixed;
-            top: -50px; left: 0; width: 100%; height: 120vh;
-            background: radial-gradient(circle at top right, #1a2f33 0%, var(--bg-base) 60%);
-            z-index: -1;
-            will-change: transform;
+        h1, h2, h3, .mono {
+            font-family: 'Space Mono', monospace;
         }
 
-        /* Fixed Navigation */
-        header {
+        /* Scanline Overlay Effect */
+        .scanlines {
             position: fixed;
-            width: 100%;
-            padding: 1.5rem 5%;
-            background: rgba(10, 17, 24, 0.8);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+            background-size: 100% 4px;
+            z-index: 9990;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            background: rgba(7, 10, 15, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: 700;
-            color: var(--text-main);
-            letter-spacing: 2px;
-        }
-
-        .logo span {
-            color: var(--accent-gold);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
+            color: var(--accent-cyan);
+            letter-spacing: -1px;
         }
 
         .nav-links a {
-            color: var(--text-main);
+            color: var(--text-muted);
             text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            position: relative;
+            margin-left: 2rem;
+            font-size: 0.9rem;
+            font-family: 'Space Mono', monospace;
             transition: var(--transition);
         }
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 0; height: 2px;
-            bottom: -5px; left: 0;
-            background-color: var(--accent-gold);
-            transition: var(--transition);
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+            text-shadow: 0 0 8px var(--accent-cyan);
         }
 
-        .nav-links a:hover::after { width: 100%; }
-        .nav-links a:hover { color: var(--accent-gold); }
+        .nav-links a::before { content: '< '; opacity: 0; transition: 0.3s; color: var(--accent-green); }
+        .nav-links a::after { content: ' />'; opacity: 0; transition: 0.3s; color: var(--accent-green); }
+        .nav-links a:hover::before, .nav-links a:hover::after { opacity: 1; }
 
-        /* General Layout */
+        /* Container */
         .container {
-            max-width: 1100px;
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 100px 2rem 50px;
         }
 
-        /* Scroll Reveal Animation Starting State */
-        section {
-            min-height: 100vh;
+        /* Hero Section */
+        .hero {
+            min-height: 80vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 120px 0 60px 0;
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 1s ease-out, transform 1s ease-out;
         }
 
-        /* Scroll Reveal Trigger Class */
-        section.visible {
+        .terminal-prompt {
+            color: var(--accent-green);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .hero h1 span { color: var(--accent-cyan); }
+
+        .typewriter-text {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            min-height: 30px;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px; height: 20px;
+            background-color: var(--accent-cyan);
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Terminal Style Cards */
+        .tech-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(30px);
+            cursor: pointer; /* Indicates it can be clicked */
+        }
+
+        .tech-card.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* Hero Section */
-        .hero-text h1 {
-            font-size: 4.5rem;
-            line-height: 1.1;
-            margin-bottom: 1rem;
-            font-weight: 700;
+        .tech-card:hover {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.15);
+            transform: translateY(-5px);
         }
 
-        .hero-text h1 span {
-            color: var(--accent-gold);
-        }
-
-        .hero-text p {
-            font-size: 1.15rem;
-            color: var(--text-muted);
-            margin-bottom: 2.5rem;
-            max-width: 700px;
-        }
-
-        .contact-info {
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            margin-bottom: 2.5rem;
-        }
-
-        .contact-info a, .contact-info span {
-            color: var(--accent-gold);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 600;
+        /* Mac/Linux Terminal Window Top Bar */
+        .card-header-bar {
+            background: rgba(0, 229, 255, 0.05);
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 15px;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 8px;
         }
+
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot.red { background-color: #ff5f56; }
+        .dot.yellow { background-color: #ffbd2e; }
+        .dot.green { background-color: #27c93f; }
         
-        .contact-info a:hover {
-            text-decoration: underline;
-        }
-
-        /* Section Titles */
-        .section-title {
-            font-size: 2.2rem;
-            margin-bottom: 3.5rem;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px; left: 0;
-            width: 50%; height: 3px;
-            background: var(--accent-gold);
-            border-radius: 2px;
-        }
-
-        /* CSS Grid for Experience & Education Cards */
-        .content-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-        }
-
-        .card {
-            background: var(--bg-card);
-            padding: 2.5rem;
-            border-radius: 16px;
-            border-top: 4px solid var(--bg-card);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            transition: var(--transition);
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            border-top: 4px solid var(--accent-gold);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        }
-
-        .card-date {
-            font-size: 0.85rem;
-            color: var(--accent-gold);
-            font-weight: 700;
-            letter-spacing: 1px;
-            margin-bottom: 0.8rem;
-            display: block;
-            text-transform: uppercase;
-        }
-
-        .card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.3rem;
-            color: var(--text-main);
-        }
-
-        .card h4 {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-            font-weight: 400;
-        }
-
-        .card ul {
-            list-style: none;
-        }
-
-        .card ul li {
-            position: relative;
-            padding-left: 1.5rem;
-            margin-bottom: 0.8rem;
-            font-size: 0.95rem;
-            color: #d1d5db;
-        }
-
-        .card ul li::before {
-            content: '✦';
-            position: absolute;
-            left: 0;
-            color: var(--accent-gold);
-            font-size: 0.8rem;
-            top: 4px;
-        }
-
-        /* Tech Stack Tags */
-        .skills-wrapper {
-            background: var(--bg-card);
-            padding: 3rem;
-            border-radius: 16px;
-            text-align: center;
-        }
-
-        .skill-group {
-            margin-bottom: 2.5rem;
-        }
-        
-        .skill-group:last-child {
-            margin-bottom: 0;
-        }
-
-        .skill-group h3 {
-            color: var(--text-muted);
-            margin-bottom: 1.2rem;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .tags {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1rem;
-        }
-
-        .tag {
-            padding: 0.6rem 1.5rem;
-            border-radius: 50px;
-            background: rgba(212, 175, 55, 0.05);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            color: var(--text-main);
+        .card-title {
+            margin-left: 10px;
+            font-family: 'Space Mono', monospace;
             font-size: 0.9rem;
-            font-weight: 600;
-            transition: var(--transition);
+            color: var(--text-muted);
         }
 
-        .tag.proficient {
-            border-color: var(--accent-gold);
-            background: rgba(212, 175, 55, 0.15);
-            color: var(--accent-gold);
+        .card-body { padding: 2rem; }
+
+        /* Section Typography */
+        h2 {
+            font-size: 2rem;
+            color: var(--accent-cyan);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .tag:hover {
-            background: var(--accent-gold);
-            color: var(--bg-base);
-            transform: scale(1.05);
+        h2::before { content: '~/'; color: var(--accent-green); }
+
+        .job-title { font-size: 1.3rem; color: #fff; margin-bottom: 0.3rem; }
+        .job-meta { color: var(--accent-green); font-size: 0.9rem; margin-bottom: 1.2rem; }
+        
+        ul { list-style: none; margin-left: 1rem; }
+        ul li { position: relative; padding-left: 1.5rem; margin-bottom: 0.8rem; }
+        ul li::before {
+            content: '>';
+            position: absolute; left: 0;
+            color: var(--accent-cyan);
+            font-family: 'Space Mono', monospace;
+            font-weight: bold;
         }
 
+        /* Code Block Skills */
+        .code-block {
+            background: #05080c;
+            padding: 1.5rem;
+            border-radius: 6px;
+            border: 1px dashed rgba(255,255,255,0.1);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.95rem;
+        }
+        
+        .code-key { color: var(--accent-cyan); }
+        .code-string { color: var(--accent-green); }
+        .code-punct { color: #888; }
+
+        /* --- POPUP / MODAL STYLES --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(7, 10, 15, 0.9);
+            backdrop-filter: blur(8px);
+            z-index: 10001; /* Above everything */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-box {
+            background: var(--bg-card);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 0 40px rgba(0, 229, 255, 0.2);
+            transform: scale(0.95) translateY(20px);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            position: relative;
+            opacity: 0;
+            cursor: default; /* Remove pointer inside modal */
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 8px;
+            right: 15px;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            font-family: 'Space Mono', monospace;
+            font-weight: bold;
+            z-index: 10;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: #ff5f56;
+        }
+
+        /* Custom Scrollbar for Modal */
+        .modal-box::-webkit-scrollbar { width: 8px; }
+        .modal-box::-webkit-scrollbar-track { background: var(--bg-base); }
+        .modal-box::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+        .modal-box::-webkit-scrollbar-thumb:hover { background: var(--accent-cyan); }
+
+
+        /* Responsive */
         @media (max-width: 768px) {
             .nav-links { display: none; }
-            .hero-text h1 { font-size: 3rem; }
-            section { padding: 100px 0 40px 0; min-height: auto; }
+            .hero h1 { font-size: 2.8rem; }
+            .card-body { padding: 1.5rem; }
         }
     </style>
 </head>
 <body>
+    <div class="scanlines"></div>
 
-    <!-- Parallax Background -->
-    <div class="parallax-bg"></div>
-
-    <!-- Navigation -->
-    <header>
-        <div class="logo">DZ<span>L.</span></div>
+    <nav>
+        <div class="logo mono">&lt; My Portfolio Website /&gt;</div>
         <div class="nav-links">
-            <a href="#summary">Summary</a>
-            <a href="#experience">Experience</a>
-            <a href="#skills">Tech Stack</a>
-            <a href="#education">Education</a>
+            <a href="#about">about</a>
+            <a href="#experience">experience</a>
+            <a href="#skills">skills</a>
+            <a href="#education">education</a>
         </div>
-    </header>
+    </nav>
+
+    <!-- Modal Overlay Container -->
+    <div class="modal-overlay" id="card-modal">
+        <div class="modal-box" id="modal-box-content">
+            <span class="close-btn" id="close-modal-btn">[X]</span>
+            <!-- Inner content gets injected here via Javascript -->
+            <div id="modal-body-content"></div>
+        </div>
+    </div>
 
     <div class="container">
-        <!-- Hero / Summary Section -->
-        <section id="summary" class="visible">
-            <div class="hero-text">
-                <h1>Dustin Z. <br><span>Lacandazo</span></h1>
-                
-                <div class="contact-info">
-                    <a href="mailto:dustinlacandazo15@gmail.com">dustinlacandazo15@gmail.com</a>
-                    <span>(+63) 9757735802</span>
-                    <span>Valenzuela City</span>
-                </div>
+        
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="terminal-prompt mono">dustin - portfolio:website ./start.sh</div>
+            <h1>Dustin Z. <span>Lacandazo</span></h1>
+            
+            <div class="mono">
+                <span class="typewriter-text" id="type"></span><span class="cursor"></span>
+            </div>
 
-                <p>
-                    Dedicated 2nd-year IT student at the Polytechnic University of the Philippines actively seeking an IT internship. Combines a Computer Systems Servicing NC II certification with foundational skills in programming, web development, and database management. A proactive Senior Council Officer recognized for teamwork and event coordination, ready to contribute technical support and programming knowledge to a forward-thinking organization.
-                </p>
+            <div class="tech-card observer-item" id="about" style="opacity: 1; transform: none; margin-top: 2rem;">
+                <div class="card-header-bar">
+                    <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+                    <div class="card-title">summary.txt</div>
+                </div>
+                <div class="card-body">
+                    <p>Dedicated 2nd-year IT student at the Polytechnic University of the Philippines actively seeking an IT internship. Combines a Computer Systems Servicing NC II certification with foundational skills in programming, web development, and database management. A proactive Senior Council Officer ready to contribute technical support and programming knowledge to a forward-thinking organization.</p>
+                    
+                    <div class="mono" style="color: var(--text-muted); margin-top: 1.5rem; line-height: 2;">
+                        > [Email]: <a href="mailto:dustinlacandazo15@gmail.com" style="color: var(--accent-cyan); text-decoration: none;">dustinlacandazo15@gmail.com</a><br>
+                        > [Phone]: <span style="color: var(--text-main);">(+63) 9757735802</span><br>
+                        > [Location]: <span style="color: var(--text-main);">Valenzuela City</span>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- Experience Section -->
-        <section id="experience">
-            <h2 class="section-title">Professional Experience</h2>
-            <div class="content-grid">
-                
-                <div class="card">
-                    <span class="card-date">Jan 2026 - Feb 2026</span>
-                    <h3>Customer Service Associate</h3>
-                    <h4>FlowerStore.ph | Makati</h4>
+        <section id="experience" style="margin-top: 4rem;">
+            <h2>experience</h2>
+            
+            <div class="tech-card observer-item">
+                <div class="card-header-bar">
+                    <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+                    <div class="card-title">work_history.log</div>
+                </div>
+                <div class="card-body">
+                    <h3 class="job-title mono">Customer Service Associate</h3>
+                    <div class="job-meta mono">FlowerStore.ph, Makati City // Jan - Feb 2026</div>
                     <ul>
                         <li>Managed 50+ daily inbound calls, emails, and live chats—efficiently resolving inquiries and providing excellent service.</li>
-                        <li>Coordinated logistics for order redeliveries and accurately maintained detailed rider information and dispatch records using Microsoft Excel.</li>
+                        <li>Coordinated logistics for order redeliveries and accurately maintained detailed rider information and dispatch records using MS Excel.</li>
                     </ul>
-                </div>
 
-                <div class="card">
-                    <span class="card-date">April 2024 - May 2024</span>
-                    <h3>On-the-Job Training (80 Hours)</h3>
-                    <h4>Lingunan 3s Center | Valenzuela City</h4>
+                    <div style="border-bottom: 1px dashed var(--border-color); margin: 2rem 0;"></div>
+
+                    <h3 class="job-title mono">On-the-Job Training (OJT)</h3>
+                    <div class="job-meta mono">Lingunan 3s Center, Valenzuela City // Apr - May 2024</div>
                     <ul>
-                        <li>Executed accurate and efficient data entry by encoding Barangay Census Forms and other critical records to ensure up-to-date community databases.</li>
-                        <li>Provided comprehensive administrative support by managing the printing, scanning, and digital archiving of official documents.</li>
+                        <li>Executed accurate data entry by encoding Barangay Census Forms to ensure up-to-date community databases.</li>
+                        <li>Provided comprehensive administrative support by managing printing, scanning, and digital archiving of official documents.</li>
                     </ul>
                 </div>
-
             </div>
         </section>
 
-        <!-- Tech Stack Section -->
-        <section id="skills">
-            <h2 class="section-title">Tech Stack</h2>
-            <div class="skills-wrapper">
-                
-                <div class="skill-group">
-                    <h3>Proficient</h3>
-                    <div class="tags">
-                        <span class="tag proficient">HTML5</span>
-                        <span class="tag proficient">CSS3</span>
-                        <span class="tag proficient">Microsoft Excel</span>
-                        <span class="tag proficient">Hardware Troubleshooting</span>
-                        <span class="tag proficient">Customer Support</span>
+        <!-- Tech Stack Code Snippet -->
+        <section id="skills" style="margin-top: 4rem;">
+            <h2>tech-stack</h2>
+            
+            <div class="tech-card observer-item">
+                <div class="card-header-bar">
+                    <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+                    <div class="card-title">skills.json</div>
+                </div>
+                <div class="card-body">
+                    <div class="code-block">
+                        <span class="code-punct">{</span><br>
+                        &nbsp;&nbsp;<span class="code-key">"proficient"</span><span class="code-punct">: [</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"HTML5"</span><span class="code-punct">,</span> <span class="code-string">"CSS3"</span><span class="code-punct">,</span> <span class="code-string">"MS Excel"</span><span class="code-punct">,</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"Hardware Troubleshooting"</span><span class="code-punct">,</span> <span class="code-string">"Customer Support"</span><br>
+                        &nbsp;&nbsp;<span class="code-punct">],</span><br>
+                        &nbsp;&nbsp;<span class="code-key">"familiar"</span><span class="code-punct">: [</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"Java"</span><span class="code-punct">,</span> <span class="code-string">"C++"</span><span class="code-punct">,</span> <span class="code-string">"JavaScript"</span><span class="code-punct">,</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"SQL"</span><span class="code-punct">,</span> <span class="code-string">"phpMyAdmin"</span><br>
+                        &nbsp;&nbsp;<span class="code-punct">]</span><br>
+                        <span class="code-punct">}</span>
                     </div>
                 </div>
-
-                <div class="skill-group">
-                    <h3>Familiar</h3>
-                    <div class="tags">
-                        <span class="tag">Java</span>
-                        <span class="tag">C++</span>
-                        <span class="tag">JavaScript</span>
-                        <span class="tag">SQL</span>
-                        <span class="tag">phpMyAdmin</span>
-                    </div>
-                </div>
-
             </div>
         </section>
 
-        <!-- Education & Extras Section -->
-        <section id="education">
-            <h2 class="section-title">Education & Credentials</h2>
-            <div class="content-grid">
-                
-                <div class="card">
-                    <span class="card-date">2024 - Present</span>
-                    <h3>Diploma in IT</h3>
-                    <h4>Polytechnic University of the Philippines</h4>
+        <!-- Education Section -->
+        <section id="education" style="margin-top: 4rem;">
+            <h2>education and certificates</h2>
+            
+            <div class="tech-card observer-item">
+                <div class="card-header-bar">
+                    <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+                    <div class="card-title">academics.md</div>
+                </div>
+                <div class="card-body">
+                    <h3 class="job-title mono">Diploma in Information Technology</h3>
+                    <div class="job-meta mono">Polytechnic University of the Philippines // 2024 - Present</div>
                     <ul>
-                        <li>GWA: 1.28 (1st Year) | 1.19 (2nd Year - First Semester)</li>
-                        <li>President’s List Awardee</li>
+                        <li><strong>GWA:</strong> 1.28 (1st Year) | 1.19 (2nd Year - 1st Sem) — President’s List Awardee</li>
                         <li><strong>Senior Council Officer:</strong> PUP Institute of Technology Student Council</li>
-                        <li>Organized a booth for PUP Rainbow Fest 2025</li>
+                        <li>Organized a booth for PUP Rainbow Fest 2025.</li>
+                        <li>Introduced council advocacy to freshmen at the ITECH FRESH-GEN FESTIVAL.</li>
                     </ul>
-                </div>
 
-                <div class="card">
-                    <span class="card-date">Credentials</span>
-                    <h3>Certifications & Activities</h3>
-                    <h4>Various Institutions</h4>
+                    <div style="border-bottom: 1px dashed var(--border-color); margin: 2rem 0;"></div>
+
+                    <h3 class="job-title mono">TVL - ICT</h3>
+                    <div class="job-meta mono">Electron College of Technical Education // 2022 - 2024</div>
+                    <ul>
+                        <li>General Average: 97 (Grade 11) | 96 (Grade 12) — With High Honors</li>
+                    </ul>
+
+                    <div style="border-bottom: 1px dashed var(--border-color); margin: 2rem 0;"></div>
+
+                    <h3 class="job-title mono" style="color: var(--accent-cyan);">Certifications</h3>
                     <ul>
                         <li><strong>TESDA:</strong> Computer Systems Servicing NC II</li>
                         <li><strong>Coursera:</strong> Foundations of Cybersecurity</li>
-                        <li><strong>Hacksplaining:</strong> Security Training</li>
-                        <li>Introduced council advocacy to freshmen at the ITECH FRESH-GEN FESTIVAL</li>
-                        <li>Attended the COSMOS 2026 technology event</li>
+                        <li><strong>Training:</strong> Hacksplaining Security Training</li>
                     </ul>
                 </div>
-
             </div>
         </section>
+
     </div>
 
-    <!-- Interactive JavaScript -->
     <script>
-        // Smooth Scroll Reveal via Intersection Observer
-        const sections = document.querySelectorAll('section:not(#summary)');
+        // Tech Typewriter Effect for Hero Section
+        const phrases = [
+            "Initializing system...",
+            "Loading IT Student profile...",
+            "Senior Council Officer.",
+            "Ready for Internship."
+        ];
+        
+        let i = 0; let j = 0; 
+        let currentPhrase = [];
+        let isDeleting = false;
+        const textElement = document.getElementById('type');
+
+        function typeLoop() {
+            textElement.innerHTML = currentPhrase.join('');
+            
+            if (i < phrases.length) {
+                if (!isDeleting && j <= phrases[i].length) {
+                    currentPhrase.push(phrases[i][j]);
+                    j++;
+                    textElement.innerHTML = currentPhrase.join('');
+                }
+
+                if (isDeleting && j <= phrases[i].length) {
+                    currentPhrase.pop(phrases[i][j]);
+                    j--;
+                    textElement.innerHTML = currentPhrase.join('');
+                }
+
+                if (j == phrases[i].length) {
+                    isDeleting = true;
+                    setTimeout(typeLoop, 1500); // Wait before deleting
+                    return;
+                }
+
+                if (isDeleting && j === 0) {
+                    currentPhrase = [];
+                    isDeleting = false;
+                    i++;
+                    if (i == phrases.length) { i = 2; } // Loop only the last 3 phrases
+                }
+            }
+            const speed = Math.random() * (80 - 30) + 30; // Random typing speed for realism
+            setTimeout(typeLoop, isDeleting ? speed / 2 : speed);
+        }
+        
+        setTimeout(typeLoop, 500);
+
+        // Intersection Observer for Terminal Cards Fade-In
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
+                if(entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    // Stop observing once it's visible so it doesn't fade out again
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.15 });
+        }, { threshold: 0.1 });
 
-        sections.forEach(section => observer.observe(section));
+        document.querySelectorAll('.observer-item').forEach(item => {
+            observer.observe(item);
+        });
 
-        // Subtle Parallax Effect on Background
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallaxBg = document.querySelector('.parallax-bg');
-            // Move the background slower than the scroll speed for depth
-            parallaxBg.style.transform = `translateY(${scrolled * 0.4}px)`;
+        // --- MODAL (POPUP) LOGIC ---
+        const modal = document.getElementById('card-modal');
+        const modalBody = document.getElementById('modal-body-content');
+        const closeBtn = document.getElementById('close-modal-btn');
+        const cards = document.querySelectorAll('.tech-card');
+
+        // Open modal on card click
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                // Clone the exact HTML of the clicked card into the popup
+                modalBody.innerHTML = card.innerHTML;
+                modal.classList.add('active');
+                
+                // Prevent scrolling on the main background while popup is open
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        // Function to close the modal
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        }
+
+        // Close on [X] click
+        closeBtn.addEventListener('click', closeModal);
+
+        // Close when clicking outside the popup content (on the blurred background)
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Close on 'Escape' key press
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
         });
     </script>
 </body>
