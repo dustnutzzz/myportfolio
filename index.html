@@ -200,7 +200,7 @@
         .code-block { background: rgba(0,0,0,0.4); padding: 1.5rem; border-radius: 6px; border: 1px dashed rgba(255,255,255,0.1); font-family: 'Space Mono', monospace; font-size: 0.95rem; }
         .code-key { color: var(--accent-cyan); } .code-string { color: var(--accent-green); } .code-punct { color: #888; }
 
-        /* Modal Styles */
+        /* --- 3. MODAL (POP-UP) STYLES --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
@@ -209,17 +209,48 @@
         }
         .modal-overlay.active { opacity: 1; pointer-events: all; }
         
-        .modal-box {
-            background: var(--bg-card); border: 1px solid var(--accent-cyan); border-radius: 12px;
-            width: 90%; max-width: 800px; max-height: 85vh; overflow-y: auto;
-            box-shadow: 0 0 50px rgba(0, 229, 255, 0.15);
-            transform: scale(0.9) translateY(30px); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
-            position: relative; opacity: 0; cursor: default;
+        /* Modal Container separates the animation scale from the scrollable box */
+        .modal-container {
+            position: relative;
+            width: 90%; 
+            max-width: 800px;
+            transform: scale(0.9) translateY(30px); 
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+            opacity: 0;
         }
-        .modal-overlay.active .modal-box { transform: scale(1) translateY(0); opacity: 1; }
+        .modal-overlay.active .modal-container {
+            transform: scale(1) translateY(0); 
+            opacity: 1;
+        }
+
+        .modal-box {
+            background: var(--bg-card); 
+            border: 1px solid var(--accent-cyan); 
+            border-radius: 12px;
+            max-height: 80vh; /* Reduced slightly to give room for the close button */
+            overflow-y: auto; 
+            box-shadow: 0 0 50px rgba(0, 229, 255, 0.15);
+            cursor: default;
+        }
         
-        .close-btn { position: absolute; top: 12px; right: 20px; color: var(--text-muted); font-size: 1.2rem; cursor: pointer; font-family: 'Space Mono', monospace; font-weight: bold; z-index: 20; transition: 0.2s; }
-        .close-btn:hover { color: #ff5f56; }
+        /* Upgraded Close Button (Floating outside the scroll window) */
+        .close-btn-wrapper {
+            position: absolute;
+            top: -45px; /* Floats above the modal box */
+            right: 0;
+            z-index: 50;
+        }
+        
+        .close-btn { 
+            color: var(--text-muted); font-size: 1rem; cursor: pointer; font-family: 'Space Mono', monospace; 
+            font-weight: bold; transition: 0.2s; 
+            background: var(--bg-base); border: 1px solid var(--border-color);
+            padding: 6px 16px; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            display: inline-block;
+        }
+        .close-btn:hover { color: #ff5f56; border-color: #ff5f56; }
+        
+        /* Custom Modal Scrollbar */
         .modal-box::-webkit-scrollbar { width: 8px; }
         .modal-box::-webkit-scrollbar-track { background: transparent; }
         .modal-box::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
@@ -244,11 +275,17 @@
         </div>
     </nav>
 
-    <!-- Modal -->
+    <!-- Upgraded Modal Structure for secondary Lenis scrolling -->
     <div class="modal-overlay" id="card-modal">
-        <div class="modal-box" id="modal-box-content">
-            <span class="close-btn" id="close-modal-btn">[X]</span>
-            <div id="modal-body-content"></div>
+        <div class="modal-container">
+            <div class="close-btn-wrapper">
+                <span class="close-btn" id="close-modal-btn">[X] CLOSE</span>
+            </div>
+            <div class="modal-box" id="modal-box">
+                <div class="modal-scroll-content" id="modal-body-content">
+                    <!-- Cloned content goes here -->
+                </div>
+            </div>
         </div>
     </div>
 
@@ -364,10 +401,10 @@
     </div>
 
     <script>
-        // --- 1. INITIALIZE LENIS SMOOTH SCROLLING ---
+        // --- 1. INITIALIZE GLOBAL LENIS SMOOTH SCROLLING ---
         const lenis = new Lenis({
-            duration: 1.5, // The higher the number, the smoother and longer the glide
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Premium easing curve
+            duration: 1.5, 
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
             direction: 'vertical',
             gestureDirection: 'vertical',
             smooth: true,
@@ -377,7 +414,6 @@
             infinite: false,
         });
 
-        // Plug Lenis into the browser's animation loop
         function raf(time) {
             lenis.raf(time);
             requestAnimationFrame(raf);
@@ -389,7 +425,6 @@
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('href');
-                // Lenis perfectly handles scrolling to elements, minus the navbar offset
                 lenis.scrollTo(targetId, { offset: -100, duration: 1.5 });
             });
         });
@@ -412,7 +447,6 @@
         setTimeout(typeLoop, 500);
 
         // --- 3. CINEMATIC INTERSECTION OBSERVER ---
-        // Triggers the animation slightly before the card is fully in view
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if(entry.isIntersecting) {
@@ -426,23 +460,55 @@
             observer.observe(item);
         });
 
-        // Modal Logic (Unchanged, ensures scrolling locks correctly)
+        // --- 4. MODAL & SECONDARY LENIS LOGIC ---
         const modal = document.getElementById('card-modal');
         const modalBody = document.getElementById('modal-body-content');
         const closeBtn = document.getElementById('close-modal-btn');
         const cards = document.querySelectorAll('.tech-card');
+        let modalLenis; // Variable to hold the modal's smooth scroll instance
 
         cards.forEach(card => {
             card.addEventListener('click', () => {
+                // Clone card contents into popup
                 modalBody.innerHTML = card.innerHTML;
                 modal.classList.add('active');
-                lenis.stop(); // Stops the smooth scroll engine while modal is open
+                
+                // Stop the main background website from scrolling
+                lenis.stop(); 
+
+                // Reset the scroll position of the popup box to the top
+                const modalBox = document.getElementById('modal-box');
+                modalBox.scrollTop = 0;
+
+                // Create a NEW smooth scroll engine specifically for the pop-up box
+                modalLenis = new Lenis({
+                    wrapper: modalBox,
+                    content: document.querySelector('.modal-scroll-content'),
+                    duration: 1.5,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    direction: 'vertical',
+                    gestureDirection: 'vertical',
+                });
+
+                function modalRaf(time) {
+                    if (modalLenis) {
+                        modalLenis.raf(time);
+                        requestAnimationFrame(modalRaf);
+                    }
+                }
+                requestAnimationFrame(modalRaf);
             });
         });
 
         function closeModal() {
             modal.classList.remove('active');
-            lenis.start(); // Restarts the smooth scroll engine
+            lenis.start(); // Restart the main background website scroll
+            
+            // Destroy the pop-up's smooth scroll engine to free up memory
+            if(modalLenis) {
+                modalLenis.destroy();
+                modalLenis = null;
+            }
         }
 
         closeBtn.addEventListener('click', closeModal);
