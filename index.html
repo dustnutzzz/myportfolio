@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dustin Z. Lacandazo | IT Portfolio</title>
+    <!-- Modern Poppins Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Modern, Jewel-Toned & Gold UI Setup */
+        :root {
+            --bg-base: #0a1118; /* Deepest jewel-toned slate */
+            --bg-card: #121e26; /* Slightly lighter earthy jewel tone */
+            --accent-gold: #D4AF37; /* Warm gold accent */
+            --text-main: #f4f1ea; /* Warm earthy white */
+            --text-muted: #8a9e9b;
+            --transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        /* Parallax Background Gradient */
+        .parallax-bg {
+            position: fixed;
+            top: -50px; left: 0; width: 100%; height: 120vh;
+            background: radial-gradient(circle at top right, #1a2f33 0%, var(--bg-base) 60%);
+            z-index: -1;
+            will-change: transform;
+        }
+
+        /* Fixed Navigation */
+        header {
+            position: fixed;
+            width: 100%;
+            padding: 1.5rem 5%;
+            background: rgba(10, 17, 24, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: var(--accent-gold);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0; height: 2px;
+            bottom: -5px; left: 0;
+            background-color: var(--accent-gold);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a:hover { color: var(--accent-gold); }
+
+        /* General Layout */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Scroll Reveal Animation Starting State */
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 120px 0 60px 0;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        /* Scroll Reveal Trigger Class */
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hero Section */
+        .hero-text h1 {
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero-text h1 span {
+            color: var(--accent-gold);
+        }
+
+        .hero-text p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+
+        .contact-info a, .contact-info span {
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 2.2rem;
+            margin-bottom: 3.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px; left: 0;
+            width: 50%; height: 3px;
+            background: var(--accent-gold);
+            border-radius: 2px;
+        }
+
+        /* CSS Grid for Experience & Education Cards */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 16px;
+            border-top: 4px solid var(--bg-card);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-top: 4px solid var(--accent-gold);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .card-date {
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 0.8rem;
+            display: block;
+            text-transform: uppercase;
+        }
+
+        .card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.3rem;
+            color: var(--text-main);
+        }
+
+        .card h4 {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card ul li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+            color: #d1d5db;
+        }
+
+        .card ul li::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            color: var(--accent-gold);
+            font-size: 0.8rem;
+            top: 4px;
+        }
+
+        /* Tech Stack Tags */
+        .skills-wrapper {
+            background: var(--bg-card);
+            padding: 3rem;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .skill-group {
+            margin-bottom: 2.5rem;
+        }
+        
+        .skill-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .skill-group h3 {
+            color: var(--text-muted);
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .tag {
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            background: rgba(212, 175, 55, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .tag.proficient {
+            border-color: var(--accent-gold);
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--accent-gold);
+        }
+
+        .tag:hover {
+            background: var(--accent-gold);
+            color: var(--bg-base);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero-text h1 { font-size: 3rem; }
+            section { padding: 100px 0 40px 0; min-height: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Parallax Background -->
+    <div class="parallax-bg"></div>
+
+    <!-- Navigation -->
+    <header>
+        <div class="logo">DZ<span>L.</span></div>
+        <div class="nav-links">
+            <a href="#summary">Summary</a>
+            <a href="#experience">Experience</a>
+            <a href="#skills">Tech Stack</a>
+            <a href="#education">Education</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Hero / Summary Section -->
+        <section id="summary" class="visible">
+            <div class="hero-text">
+                <h1>Dustin Z. <br><span>Lacandazo</span></h1>
+                
+                <div class="contact-info">
+                    <a href="mailto:dustinlacandazo15@gmail.com">dustinlacandazo15@gmail.com</a>
+                    <span>(+63) 9757735802</span>
+                    <span>Valenzuela City</span>
+                </div>
+
+                <p>
+                    Dedicated 2nd-year IT student at the Polytechnic University of the Philippines actively seeking an IT internship. Combines a Computer Systems Servicing NC II certification with foundational skills in programming, web development, and database management. A proactive Senior Council Officer recognized for teamwork and event coordination, ready to contribute technical support and programming knowledge to a forward-thinking organization.
+                </p>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience">
+            <h2 class="section-title">Professional Experience</h2>
+            <div class="content-grid">
+                
+                <div class="card">
+                    <span class="card-date">Jan 2026 - Feb 2026</span>
+                    <h3>Customer Service Associate</h3>
+                    <h4>FlowerStore.ph | Makati</h4>
+                    <ul>
+                        <li>Managed 50+ daily inbound calls, emails, and live chats—efficiently resolving inquiries and providing excellent service.</li>
+                        <li>Coordinated logistics for order redeliveries and accurately maintained detailed rider information and dispatch records using Microsoft Excel.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <span class="card-date">April 2024 - May 2024</span>
+                    <h3>On-the-Job Training (80 Hours)</h3>
+                    <h4>Lingunan 3s Center | Valenzuela City</h4>
+                    <ul>
+                        <li>Executed accurate and efficient data entry by encoding Barangay Census Forms and other critical records to ensure up-to-date community databases.</li>
+                        <li>Provided comprehensive administrative support by managing the printing, scanning, and digital archiving of official documents.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Tech Stack Section -->
+        <section id="skills">
+            <h2 class="section-title">Tech Stack</h2>
+            <div class="skills-wrapper">
+                
+                <div class="skill-group">
+                    <h3>Proficient</h3>
+                    <div class="tags">
+                        <span class="tag proficient">HTML5</span>
+                        <span class="tag proficient">CSS3</span>
+                        <span class="tag proficient">Microsoft Excel</span>
+                        <span class="tag proficient">Hardware Troubleshooting</span>
+                        <span class="tag proficient">Customer Support</span>
+                    </div>
+                </div>
+
+                <div class="skill-group">
+                    <h3>Familiar</h3>
+                    <div class="tags">
+                        <span class="tag">Java</span>
+                        <span class="tag">C++</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">SQL</span>
+                        <span class="tag">phpMyAdmin</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Education & Extras Section -->
+        <section id="education">
+            <h2 class="section-title">Education & Credentials</h2>
+            <div class="content-grid">
+                
+                <div class="card">
+                    <span class="card-date">2024 - Present</span>
+                    <h3>Diploma in IT</h3>
+                    <h4>Polytechnic University of the Philippines</h4>
+                    <ul>
+                        <li>GWA: 1.28 (1st Year) | 1.19 (2nd Year - First Semester)</li>
+                        <li>President’s List Awardee</li>
+                        <li><strong>Senior Council Officer:</strong> PUP Institute of Technology Student Council</li>
+                        <li>Organized a booth for PUP Rainbow Fest 2025</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <span class="card-date">Credentials</span>
+                    <h3>Certifications & Activities</h3>
+                    <h4>Various Institutions</h4>
+                    <ul>
+                        <li><strong>TESDA:</strong> Computer Systems Servicing NC II</li>
+                        <li><strong>Coursera:</strong> Foundations of Cybersecurity</li>
+                        <li><strong>Hacksplaining:</strong> Security Training</li>
+                        <li>Introduced council advocacy to freshmen at the ITECH FRESH-GEN FESTIVAL</li>
+                        <li>Attended the COSMOS 2026 technology event</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <!-- Interactive JavaScript -->
+    <script>
+        // Smooth Scroll Reveal via Intersection Observer
+        const sections = document.querySelectorAll('section:not(#summary)');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Stop observing once it's visible so it doesn't fade out again
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        sections.forEach(section => observer.observe(section));
+
+        // Subtle Parallax Effect on Background
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallaxBg = document.querySelector('.parallax-bg');
+            // Move the background slower than the scroll speed for depth
+            parallaxBg.style.transform = `translateY(${scrolled * 0.4}px)`;
+        });
+    </script>
+</body>
+</html>
